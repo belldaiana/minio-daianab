@@ -8,7 +8,7 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/belldaiana/minio-daianab
+          uri: https://github.com/belldaiana/minio-daianab/minio-daianab
           default-label: main
           force-pull: true
           search-paths: ConfigData
