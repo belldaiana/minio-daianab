@@ -1,0 +1,60 @@
+server:
+  port: ${PORT:${SERVER_PORT:8080}}
+spring:
+  application:
+    name: api-gateway
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8085/realms/digital-media
+
+        registration:
+          gateway-api:
+            provider: keycloak
+            client-id: api-gateway
+            client-secret: mC1AOJ9WVSmdEllRgvvTI806X0CWFIpW
+            authorization-grant-type: authorization_code
+            scope: openid
+            redirect-uri: 'http://localhost:8080/login/oauth2/code/keycloak'
+
+
+  cloud:
+    gateway:
+      default-filters:
+        - TokenRelay
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: users-service
+          uri: lb://users-service
+          predicates:
+            - Path=/users/**
+        - id: api-movies
+          uri: lb://api-movies
+          predicates:
+            - Path=/movies/**
+info:
+  app:
+    name: ${spring.application.name}
+
+eureka:
+   client:
+      registerWithEureka: false
+      fetchRegistry: true
+      serviceURL:
+         defaultZone: http://localhost:8761/eureka
+management:
+   endpoint:
+      gateway:
+         enabled: true
+   endpoints:
+      web:
+         exposure:
+#            include: gateway
+            include: "*"
+
+
+

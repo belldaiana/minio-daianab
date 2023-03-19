@@ -1,0 +1,67 @@
+server:
+  port: ${PORT:${SERVER_PORT:0}}
+
+#idRandom: ${random.value}
+
+spring:
+  application:
+    name: api-movies
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: false
+    serviceURL:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    instance-id: ${spring.application.name}:${random.int}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info, health
+  info:
+    env:
+      enabled: true
+    app:
+      name: api movies
+      version: 1.0.0
+      description: Películas
+
+  springdoc:
+   show-actuator: true
+   swagger-ui:
+     groups-order: DESC
+     disable-swagger-default-url: true
+
+  zipkin:
+    baseUrl: http://localhost:9411/
+    enabled: true
+
+  data:
+    mongodb:
+     host: localhost
+     port: 27018
+     password: pass
+     username: admin
+     authentication-database: admin
+     database: moviesdb
+
+  main:
+    allow-circular-references: true
+
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8085/realms/digital-media
+        registration:
+          keycloak:
+            client-id: api-gateway
+            client-secret: uaSiIS1Yc8neUsOba9f0oiSSY9PxJo6h
+            scope: openid
+            redirect-uri: http://localhost:8080/login/
+app:
+  cors:
+    allowed-origins: http://localhost:3000
+

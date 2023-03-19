@@ -1,0 +1,18 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: digitalmedia
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8082/realms/digital-media
+        registration:
+          keycloak:
+            client-id: facturacion
+            client-secret: RLnauQJm8t9Via1EBNzehwGTbx5ZiwaC
+            scope: openid
+            redirect_uri: http://localhost:8080/login/oauth2/code/google
